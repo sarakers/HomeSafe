@@ -27,6 +27,6 @@ function getRoutes(start_location, end_location)
 	else if (results.status == "OK")
 	{
 		// Results have been found so parse and deal with results
-		parseResults(results);
+		var routes = parseResults(results);
 	} // if
 } // getRoutes
