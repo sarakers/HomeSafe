@@ -4,9 +4,31 @@
 
 <div id="id01"></div>
 
+
+
+
 <script>
+
+var latLongs = [ 
+
+
+
+
+
+
+
+]
+
+
+function listStreets(lat,long)
+{
+
+var url = "https://data.police.uk/api/crimes-at-location?date=2012-03&lat=" + lat + "&lng=" + long;
+
+document.getElementById("result").innerHTML = url;
+
 var xmlhttp = new XMLHttpRequest();
-var url = "https://data.police.uk/api/crimes-at-location?date=2012-02&lat=52.629729&lng=-1.131592";
+//var url document.getElementById(address);
 
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -22,15 +44,27 @@ function myFunction(arr) {
     var out = "";
     var i;
     for(i = 0; i < arr.length; i++) {
-        if (arr[i].category == "other-theft")
-        { 
+        //if (arr[i].category == "other-theft")
+        //{ 
         out += '<p>' + arr[i].location.street.name + '<p>';
-        }
+        //}
     }
-    document.getElementById("id01").innerHTML = out;
+    document.getElementById("here").innerHTML = out;
     // document.getElementById("id01").innerHTML = arr.length;
+}
 }
 </script>
 
+<p id="result"> </p>
+52.629729
+-1.131592
+
+
+53.439020, -2.223124
+<input id="lat"> </input>
+<input id="long"> </input>
+<button onclick="listStreets(document.getElementById('lat').value,document.getElementById('long').value)"> list em </button>
+
+<p id="here"> yo </p>
 </body>
 </html>
