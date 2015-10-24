@@ -8,51 +8,54 @@
 
 
 <script>
-
-var latLongs = [ 
-
-
-
-
-
-
-
-]
-
-
-function listStreets(lat,long)
+function countCrime(lat,long)
 {
+  
+  var noOfCrimes = getNoOfCrimes(lat,long);
+  document.getElementById("countHere").innerHTML = noOfCrimes;
+}
 
-var url = "https://data.police.uk/api/crimes-at-location?date=2012-03&lat=" + lat + "&lng=" + long;
 
-document.getElementById("result").innerHTML = url;
+function getNoOfCrimes(lat,long)
+{
+  var url = "https://data.police.uk/api/crimes-at-location?date=2012-03&lat=" + lat + "&lng=" + long;
+  var year = new Date().getYear()+1899;
+  var month = new Date().getMonth()+1;
 
-var xmlhttp = new XMLHttpRequest();
-//var url document.getElementById(address);
+  var url = "https://data.police.uk/api/crimes-at-location?date=" + year + "-" + month + "&lat=" + lat + "&lng=" + long;
+  
+  var count = 0;
+ 
+  document.getElementById("result").innerHTML = url;
 
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+    {
         var myArr = JSON.parse(xmlhttp.responseText);
-        myFunction(myArr);
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        var crimes = "anti-social-behaviour Violence and sexual offences Drugs criminal-damage-arson Criminal damage and arson Other theft Public order Possession of weapons Theft from the person Other crime"
+
+        var out = "";
+        var i;
+        for(i = 0; i < arr.length; i++) 
+        {                 
+          if (crimes.search(arr[i].category)>-1)
+          { 
+            count += 1;
+            out += '<p>' + arr[i].location.street.name + ', ' + arr[i].category + '</p>';
+          }
+        }             
     }
+  } 
+  document.getElementById("result").innerHTML = out;
+  return count;
 }
 
-xmlhttp.open("GET", url, true);
-xmlhttp.send();
-
-function myFunction(arr) {
-    var out = "";
-    var i;
-    for(i = 0; i < arr.length; i++) {
-        //if (arr[i].category == "other-theft")
-        //{ 
-        out += '<p>' + arr[i].location.street.name + '<p>';
-        //}
-    }
-    document.getElementById("here").innerHTML = out;
-    // document.getElementById("id01").innerHTML = arr.length;
-}
-}
 </script>
 
 <p id="result"> </p>
@@ -63,8 +66,9 @@ function myFunction(arr) {
 53.439020, -2.223124
 <input id="lat"> </input>
 <input id="long"> </input>
-<button onclick="listStreets(document.getElementById('lat').value,document.getElementById('long').value)"> list em </button>
+<button onclick="countCrime(document.getElementById('lat').value,document.getElementById('long').value)"> list em </button>
 
 <p id="here"> yo </p>
+<p id="countHere"> crime count goes here </p>
 </body>
 </html>
