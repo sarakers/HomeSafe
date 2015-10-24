@@ -1,12 +1,14 @@
 <html>
 
 <head>
-  <title>Bootstrap Example</title>
+  <title>HomeSafe</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="custom.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnycWatbGyK6ldFqErjFtko1yeMclNUOA&amp;sensor=true"></script>
 </head>
 
 <script>
@@ -33,14 +35,28 @@ $(document).ready(function(){
 });
 </script>
 
-
-
-
-
-
-
-
-
+<script>
+function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(53.476720, -2.253748),
+                zoom: 9,
+                mapTypeId: google.maps.MapTypeId.HYBRID,
+                scrollwheel: false,
+                draggable: false,
+                panControl: true,
+                zoomControl: true,
+                mapTypeControl: true,
+                scaleControl: true,
+                streetViewControl: true,
+                overviewMapControl: true,
+                rotateControl: true,
+            };
+			
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+	
 <body>
 
 <div class="container-fluid">
@@ -65,9 +81,8 @@ $(document).ready(function(){
 	<div class="row">
 		<div class="col-md-8">
 			<div class="jumbotron">
-				<h2>
-					This is where google maps goes. 
-				</h2>	
+			<div id="map-canvas"></div>
+
 			</div>
 		</div>
 		<div class="col-md-4">
