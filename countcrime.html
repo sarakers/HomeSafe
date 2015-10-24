@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="id01"></div>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "https://data.police.uk/api/crimes-at-location?date=2012-02&lat=52.629729&lng=-1.131592";
+
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        var myArr = JSON.parse(xmlhttp.responseText);
+        myFunction(myArr);
+    }
+}
+
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+function myFunction(arr) {
+    var out = "";
+    var i;
+    for(i = 0; i < arr.length; i++) {
+        if (arr[i].category == "other-theft")
+        { 
+        out += '<p>' + arr[i].location.street.name + '<p>';
+        }
+    }
+    document.getElementById("id01").innerHTML = out;
+    // document.getElementById("id01").innerHTML = arr.length;
+}
+</script>
+
+</body>
+</html>
