@@ -9,6 +9,38 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
+<script>
+var routesDirections = 2;
+$(document).ready(function(){
+	$("#routes").show();
+    $("#directions").hide();
+    $("#swap").click(function(){
+      if (routesDirections==1)
+      {  
+         $(this).text("Show Directions");
+         $("#routes").show();
+         $("#directions").hide();
+         routesDirections=2;
+      }
+      else
+      {
+         $(this).text("Show Routes");
+         $("#directions").show();
+         $("#routes").hide();
+         routesDirections=1;
+      }  
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
 <body>
 
 <div class="container-fluid">
@@ -42,6 +74,24 @@
 		  <div class="jumbotron">
 		    <h2> 
 			  This is where the direction stuff goes. 
+			
+			<div id = routes>
+				<ul> 
+					<li> Route b
+					<li> Route a
+				</ul>
+			</div>
+
+			<div id = "directions">
+				<ul> 
+					<li> go left
+					<li> go right
+					<li> do more
+				</ul>
+			</div>
+
+			<button id="swap"> Show Directions </button>
+
 			</h2>
 		  </div> 
 	     
