@@ -1,3 +1,41 @@
+// given a number of crimes on a single route and 
+// route length, give a safety rating
+function getSafetyOfRoute(crimeCount, routeLength)
+{
+   
+  return (crimeCount / routeLength);
+}
+
+//
+getSafetyOfRoutes
+
+
+//Get the JSON response from given API. 
+function getFromURL(url)
+{
+	var Httpreq = new XMLHttpRequest(); // a new request
+	Httpreq.open("GET",url,false);
+	Httpreq.send(null);
+	return Httpreq.responseText;    
+}
+
+//Function to return the number of crimes on a given road. 
+function getNoOfCrimes(long, lat)
+{
+  var count = 0;
+  var year = new Date().getYear()+1899;
+  var month = new Date().getMonth()+1;
+
+  //var url = "https://data.police.uk/api/crimes-at-location?date=" + year + "-" + month + "&lat=" + lat + "&lng=" + long;
+  var url = "https://data.police.uk/api/crimes-at-location?date=2014-10&lat="+lat+"&lng="+long;
+  apiData = JSON.parse	(getFromURL(url));
+  count = apiData.length;
+  
+  return count;
+  } 
+  
+
+//Finds a route from a start point to a destination. 
 function findRoutes(given_origin, given_destination){
   var directionsService = new google.maps.DirectionsService();
 
@@ -40,9 +78,12 @@ function findRoutes(given_origin, given_destination){
 		for(i = 0; i < selectedRoutes[0].route_steps.length; i++)
 		{
           stepLatLongArray[i] = new Array(selectedRoutes[0].route_steps[i].route_lng, selectedRoutes[0].route_steps[i].route_lat);
+          getNoOfCrimes(stepLatLongArray[i][0], stepLatLongArray[i][1]);
+
+		  $('#routes tbody').after('<tr>...</tr>');	
 		}
 		
-		
+		console.log(stepLatLongArray.length);
 		
 
       } else { console.log("There was an error with the request") }
