@@ -5,21 +5,25 @@ function findRoutes(given_origin, given_destination){
     origin: given_origin,
     destination: given_destination,
     travelMode: google.maps.DirectionsTravelMode.WALKING,
-    unitSystem: google.maps.UnitSystem.METRIC
+    unitSystem: google.maps.UnitSystem.METRIC,
+    provideRouteAlternatives: true
   };
 
+  var times;
+  var lengths;
+  var positions;
+
   directionsService.route(directionsRequest, function(response, status) {
+
       if (status == google.maps.DirectionsStatus.OK) {
-        var durations;
-        var distances;
-        var latlngs;
-        for (i = 0; i < 4; i++) {
-          durations[i] = response.route[i].legs[0].durations.text;
-          distances[i] = response.route[i].legs[0].distance.text;
-          latlngs[i] = {
-            lat: response.route[i].legs[0].steps;
-          };
-        };
+        for (i = 0; i < response.routes.length && i < 4 ; i++) {
+          times[i] = response.routes[i].legs[0].duration.text;
+          lengths[i] = response.routes[i].legs[0].distance.text;
+
+        }
       } else { console.log("There was an error with the request") }
   });
+
+  for(time in times) {console.log(time);}
+  for(length in lengths) {console.log(length);}
 }
