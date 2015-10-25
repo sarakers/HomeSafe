@@ -9,9 +9,9 @@ function findRoutes(given_origin, given_destination){
     provideRouteAlternatives: true
   };
 
-  var times;
-  var lengths;
-  var positions;
+  var times = new Array();
+  var lengths = new Array();
+  var positions = new Array();
 
   directionsService.route(directionsRequest, function(response, status) {
 
@@ -19,11 +19,9 @@ function findRoutes(given_origin, given_destination){
         for (i = 0; i < response.routes.length && i < 4 ; i++) {
           times[i] = response.routes[i].legs[0].duration.text;
           lengths[i] = response.routes[i].legs[0].distance.text;
-
         }
       } else { console.log("There was an error with the request") }
   });
 
-  for(time in times) {console.log(time);}
-  for(length in lengths) {console.log(length);}
+  console.log(lengths[2]);
 }
