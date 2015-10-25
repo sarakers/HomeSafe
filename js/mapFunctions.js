@@ -33,7 +33,8 @@ function findRoutes(given_origin, given_destination){
         for (i = 0; i < response.routes.length && i < 4 ; i++) {
            selectedRoutes[i] = new selectedRoute(response, i);
         }
-        return selectedRoutes;
+        console.log(selectedRoutes);
       } else { console.log("There was an error with the request") }
   });
+  return selectedRoutes;
 }
