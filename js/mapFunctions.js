@@ -25,16 +25,19 @@ function findRoutes(given_origin, given_destination){
       this.route_steps[s] = new route_step(response.routes[i].legs[0].steps[s].start_location.lng(),
                                            response.routes[i].legs[0].steps[s].start_location.lat());
     }
+
+    this.copyright = response.routes[i].copyrights;
   }
 
-  directionsService.route(directionsRequest, function(response, status) {
+  return directionsService.route(directionsRequest, function(response, status) {
 
       if (status == google.maps.DirectionsStatus.OK) {
         for (i = 0; i < response.routes.length && i < 4 ; i++) {
            selectedRoutes[i] = new selectedRoute(response, i);
         }
         console.log(selectedRoutes);
+        return selectedRoutes;
       } else { console.log("There was an error with the request") }
   });
-  return selectedRoutes;
+  console.log(selectedRoutes);
 }
