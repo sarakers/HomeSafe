@@ -17,7 +17,7 @@ var directionsRequest = {
 directionsService.route(directionsRequest, function(response, status) {
 		console.log(response);
       if (status == google.maps.DirectionsStatus.OK) {
-      	console.log(response["routes"][0]["legs"][0]["steps"]);
+      	console.log(response.route[0][0]);
       } else {}
 });
 

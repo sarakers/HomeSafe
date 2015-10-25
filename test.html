@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+var map;
+var directionsService = new google.maps.DirectionsService();
+var address = ["Blaenwaun, Ffostrasol, Llandysul, SA44 5JT","Sophia House, 28 Cathedral Road, Cardiff, CF11 9LJ","The Science Park, Technology Drive, Bridgend, CF 31 3NA","The Parade, Cardiff University, Cardiff, CF24 3AA","Spring Gardens, Whitland, Carmarthenshire, SA34 0HR","1 Redcliffe Street, , Bristol, BS1 6NP","The Manse, Tabernacle Lane, Llanvaches, NP26 3BL","Tafarnaubach Industrial Estate, Tredegar, , NP22 3AA","Churchill House, Churchill Way, Cardiff, CF10 2HH","Glen Rosa, Llanellen, Abergavenny, NP7 9HF","Ferry Lane, Pembroke Dock, , SA71 4RE","10 North Road, , Cardiff, CF10 2HH","30-36 Newport Road, , Cardiff, CF24 0DE","suite 16, Cardiff Medicentre, Cardiff, CF14 4UJ","Unit 8, Withey Court,, Western Industrial Estate,, Caerphilly, CF83 1BF","Room 127 Wallace Building, College of Science, Swansea, SA2 8PP","Swansea University, Singleton Park, Swansea, SA2 8PP","Visualisation Centre, , Aberystwyth University, SY23 3BF","Commercial Services Office, , Pontypridd, CF37 1DL","Langford House, Lower Langford, Bristol, BS40 5DU","William Russell House, The Square, Surrey, GU18 5SS","Gleider House, Ty Glas Road, , CF14 5BD","Pencoed Technology Centre, , Bridgend, CF35 5HZ","Room 203, Digital Technium, Singleton Park, Swansea, SA2 8PP","114-116 St Mary Street, , Cardiff, CF10 1DY","Princess of Wales Hospital, Coity Road, Bridgend, CF31 1RQ","Eastgate Business Park, Wentloog Avenue, Cardiff, CF3 2EY","Axis 3, Axis Court, Riverside Business Park, Mallard Way, Swansea, SA7 0AJ"];
+var timeout = 600;
+
+function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(52.40, -3.61);
+    var myOptions = {
+      zoom: 8,
+      center: latlng,
+      mapTypeId: 'roadmap'
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    plotRoutes();
+}
+
+function plotRoutes()  {
+    for (var ix=0; ix < address.length-2; ix++) {
+        color = "#"+((1<<24)*Math.random()|0).toString(16);
+        var request = {
+            origin      : address[ix],
+            destination : address[ix+1],
+            travelMode  : google.maps.DirectionsTravelMode.DRIVING
+        };
+        putRoute(request, color);
+    }
+}
+
+function putRoute(request,color) {
+    directionsService.route(request, function(response, status) {
+         if (status == google.maps.DirectionsStatus.OK)
+         {
+             var polylineOptionsActual = {
+                  strokeColor  :color,
+                  strokeOpacity: 1.0,
+                  strokeWeight : 5};
+
+             var directionsRenderer = new google.maps.DirectionsRenderer;
+             directionsRenderer.setMap(map);
+             directionsRenderer.setOptions( { polylineOptions: polylineOptionsActual, suppressMarkers: true} );
+             directionsRenderer.setDirections(response);
+        }
+        else
+        {
+            if (status == "OVER_QUERY_LIMIT")
+            {
+                setTimeout(function() { putRoute(request, color); }, (timeout));
+            }
+        }
+     });
+}
+</script>
+</head>
+<body onload="initialize()">
+<div id="map_canvas" style="height: 80%; top:10px; border: 1px solid black;"></div>
+</body>
+</html>

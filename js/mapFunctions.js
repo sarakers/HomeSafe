@@ -33,7 +33,18 @@ function findRoutes(given_origin, given_destination){
         for (i = 0; i < response.routes.length && i < 4 ; i++) {
            selectedRoutes[i] = new selectedRoute(response, i);
         }
-        console.log(selectedRoutes);
+		
+		//Array which holds the latitude and longitude of each step in the route. 
+	    var stepLatLongArray = new Array();
+
+		for(i = 0; i < selectedRoutes[0].route_steps.length; i++)
+		{
+          stepLatLongArray[i] = new Array(selectedRoutes[0].route_steps[i].route_lng, selectedRoutes[0].route_steps[i].route_lat);
+		}
+		
+		
+		
+
       } else { console.log("There was an error with the request") }
   });
   return selectedRoutes;
