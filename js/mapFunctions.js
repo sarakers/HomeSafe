@@ -9,19 +9,31 @@ function findRoutes(given_origin, given_destination){
     provideRouteAlternatives: true
   };
 
-  var times = new Array();
-  var lengths = new Array();
-  var positions = new Array();
+  var selectedRoutes = new Array();
+
+  function route_step(given_lng, given_lat){
+    this.route_lng = given_lng;
+    this.route_lat = given_lat;
+  }
+
+  function selectedRoute(response, i){
+    this.route_duration = response.routes[i].legs[0].duration.text;
+    this.route_distance = response.routes[i].legs[0].distance.text;
+    this.route_steps = new Array();
+
+    for (s = 0; s < response.routes[i].legs[0].steps.length; s++) {
+      this.route_steps[s] = new route_step(response.routes[i].legs[0].steps[s].start_location.lng(),
+                                           response.routes[i].legs[0].steps[s].start_location.lat());
+    }
+  }
 
   directionsService.route(directionsRequest, function(response, status) {
 
       if (status == google.maps.DirectionsStatus.OK) {
         for (i = 0; i < response.routes.length && i < 4 ; i++) {
-          times[i] = response.routes[i].legs[0].duration.text;
-          lengths[i] = response.routes[i].legs[0].distance.text;
+           selectedRoutes[i] = new selectedRoute(response, i);
         }
+        return selectedRoutes;
       } else { console.log("There was an error with the request") }
   });
-
-  console.log(lengths[2]);
 }
